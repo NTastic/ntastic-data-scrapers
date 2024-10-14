@@ -20,22 +20,13 @@ categories_collection = db["poi.categories"]  # Categories collection
 def get_cat_ids(type_name, subtype_name):
     cat_ids = []
     if type_name:
-        type_cat = categories_collection.find_one(
-            {"name": {"$regex": f"^{re.escape(type_name.strip())}$", "$options": "i"}}
-        )
+        type_cat = categories_collection.find_one({"name": type_name})
         if type_cat:
             cat_ids.append(type_cat["_id"])
         else:
             logger.warning(f"Category '{type_name}' not found.")
     if subtype_name:
-        subtype_cat = categories_collection.find_one(
-            {
-                "name": {
-                    "$regex": f"^{re.escape(subtype_name.strip())}$",
-                    "$options": "i",
-                }
-            }
-        )
+        subtype_cat = categories_collection.find_one({"name": subtype_name})
         if subtype_cat:
             cat_ids.append(subtype_cat["_id"])
         else:
